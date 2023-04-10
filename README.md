@@ -4,11 +4,6 @@
 
 The script has been created based on the Hyperledger version 2.4.7. Hence, all the binary, docker (peer and orderer) will be reflected to the specific 2.4.7 version. We set up the Hyperledger structure to have 3 CA servers, 3 Peer nodes and 3 Orderer nodes. The CA servers contain main CA for DUMMY (ca-dummy), CA for Orderer (ca-dummy-orderer) and separate CA for TLS. 
 
-## Architecture
-
-![alt text](reference/architecture.PNG "Deployment Architecture")
-
-
 ## Pre-requisite
 
 1. Before continue, make sure you already installed the docker, docker-compose, build-essential, lbzip2, golang and jq package in your environment.
