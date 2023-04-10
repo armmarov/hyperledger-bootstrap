@@ -1,0 +1,59 @@
+{
+	"name": "conn-network",
+	"version": "1.0.0",
+	"client": {
+		"tlsEnable": true,
+		"adminCredential": {
+			"id": "exploreradmin",
+			"password": "exploreradminpw"
+		},
+		"enableAuthentication": false,
+		"organization": "DummyMSP",
+		"connection": {
+			"timeout": {
+				"peer": {
+					"endorser": "300"
+				},
+				"orderer": "300"
+			}
+		}
+	},
+	"channels": {
+		"crosschain": {
+			"peers": {
+				"peer1.dummy.com": {}
+			},
+			"connection": {
+				"timeout": {
+					"peer": {
+						"endorser": "6000",
+						"eventHub": "6000",
+						"eventReg": "6000"
+					}
+				}
+			}
+		}
+	},
+	"organizations": {
+		"DummyMSP": {
+			"mspid": "DummyMSP",
+			"adminPrivateKey": {
+				"path": "/tmp/crypto/admin/msp/keystore/d7f0fa96fa6e72277adc753262ccd12275414b5450f5cc23e4bcd611d79c20bc_sk"
+			},
+			"peers": [
+				"peer1.dummy.com"
+			],
+			"signedCert": {
+				"path": "/tmp/crypto/admin/msp/signcerts/cert.pem"
+			}
+		}
+	},
+	"peers": {
+		"peer1.dummy.com": {
+			"tlsCACerts": {
+				"path": "/tmp/crypto/peers/peer1/tls/ca.crt"
+			},
+			"url": "grpcs://peer1.dummy.com:6051"
+		}
+	}
+}

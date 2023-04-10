@@ -1,0 +1,180 @@
+# https://hub.docker.com/r/hyperledger/fabric-orderer/tags/
+
+version: '3.7'
+
+volumes:
+  peer1.dummy.com:
+  peer2.dummy.com:
+  peer3.dummy.com:
+
+networks:
+  dummy-net:
+
+services:
+
+  peer1-db:
+    container_name: peer1-db
+    image: ${DOCKER_COUCHDB}
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5985:5984
+    networks:
+      - dummy-net
+
+  peer1.dummy.com:
+    container_name: peer1.dummy.com
+    image: ${DOCKER_PEER}
+    environment:
+      - CORE_OPERATIONS_LISTENADDRESS=peer1.dummy.com:6053
+      - CORE_METRICS_PROVIDER=prometheus
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=peer1.dummy.com
+      - CORE_PEER_ADDRESS=peer1.dummy.com:6051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:6051
+      - CORE_PEER_CHAINCODEADDRESS=peer1.dummy.com:6052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:6052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.dummy.com:6051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.dummy.com:6051
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_LOCALMSPID=DummyMSP
+      # Couch DB
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer1-db:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCDDBCONFIG_PASSWORD=
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ${WORKDIR}/ca-repo/peers/peer1/msp:/etc/hyperledger/fabric/msp
+      - ${WORKDIR}/ca-repo/peers/peer1/tls:/etc/hyperledger/fabric/tls
+      - peer1.dummy.com:/var/hyperledger/production
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 6051:6051
+      - 6052:6052
+      - 6053:6053
+    depends_on:
+      - peer1-db
+    networks:
+      - dummy-net
+
+
+  peer2-db:
+    container_name: peer2-db
+    image: ${DOCKER_COUCHDB}
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5986:5984
+    networks:
+      - dummy-net
+
+  peer2.dummy.com:
+    container_name: peer2.dummy.com
+    image: ${DOCKER_PEER}
+    environment:
+      - CORE_OPERATIONS_LISTENADDRESS=peer2.dummy.com:5053
+      - CORE_METRICS_PROVIDER=prometheus
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=peer2.dummy.com
+      - CORE_PEER_ADDRESS=peer2.dummy.com:5051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:5051
+      - CORE_PEER_CHAINCODEADDRESS=peer2.dummy.com:5052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:5052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer2.dummy.com:5051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer2.dummy.com:5051
+      - CORE_PEER_LOCALMSPID=DummyMSP
+      # Couch DB
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer2-db:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCDDBCONFIG_PASSWORD=
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ${WORKDIR}/ca-repo/peers/peer2/msp:/etc/hyperledger/fabric/msp
+      - ${WORKDIR}/ca-repo/peers/peer2/tls:/etc/hyperledger/fabric/tls
+      - peer2.dummy.com:/var/hyperledger/production
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 5051:5051
+      - 5052:5052
+      - 5053:5053
+    depends_on:
+      - peer2-db
+    networks:
+      - dummy-net
+
+  peer3-db:
+    container_name: peer3-db
+    image: ${DOCKER_COUCHDB}
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    ports:
+      - 5987:5984
+    networks:
+      - dummy-net
+
+  peer3.dummy.com:
+    container_name: peer3.dummy.com
+    image: ${DOCKER_PEER}
+    environment:
+      - CORE_OPERATIONS_LISTENADDRESS=peer3.dummy.com:4053
+      - CORE_METRICS_PROVIDER=prometheus
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - FABRIC_LOGGING_SPEC=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_PROFILE_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/fabric/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/fabric/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/fabric/tls/ca.crt
+      # Peer specific variabes
+      - CORE_PEER_ID=peer3.dummy.com
+      - CORE_PEER_ADDRESS=peer3.dummy.com:4051
+      - CORE_PEER_LISTENADDRESS=0.0.0.0:4051
+      - CORE_PEER_CHAINCODEADDRESS=peer3.dummy.com:4052
+      - CORE_PEER_CHAINCODELISTENADDRESS=0.0.0.0:4052
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer3.dummy.com:4051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer3.dummy.com:4051
+      - CORE_PEER_LOCALMSPID=DummyMSP
+      # Couch DB
+      - CORE_LEDGER_STATE_STATEDATABASE=CouchDB
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_COUCHDBADDRESS=peer3-db:5984
+      - CORE_LEDGER_STATE_COUCHDBCONFIG_USERNAME=
+      - CORE_LEDGER_STATE_COUCDDBCONFIG_PASSWORD=
+    volumes:
+      - /var/run/docker.sock:/host/var/run/docker.sock
+      - ${WORKDIR}/ca-repo/peers/peer3/msp:/etc/hyperledger/fabric/msp
+      - ${WORKDIR}/ca-repo/peers/peer3/tls:/etc/hyperledger/fabric/tls
+      - peer3.dummy.com:/var/hyperledger/production
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
+    command: peer node start
+    ports:
+      - 4051:4051
+      - 4052:4052
+      - 4053:4053
+    depends_on:
+      - peer3-db
+    networks:
+      - dummy-net
