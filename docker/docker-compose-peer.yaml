@@ -27,6 +27,8 @@ services:
     container_name: peer1.dummy.com
     image: ${DOCKER_PEER}
     environment:
+      #- CORE_CHAINCODE_BUILDER=bswamina/fabric-ccenv:2.4.6
+      #- CORE_CHAINCODE_GOLANG_RUNTIME=bswamina/fabric-baseos:2.4.6
       - CORE_OPERATIONS_LISTENADDRESS=peer1.dummy.com:6053
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -84,6 +86,8 @@ services:
     container_name: peer2.dummy.com
     image: ${DOCKER_PEER}
     environment:
+      #- CORE_CHAINCODE_BUILDER=bswamina/fabric-ccenv:2.4.6
+      #- CORE_CHAINCODE_GOLANG_RUNTIME=bswamina/fabric-baseos:2.4.6
       - CORE_OPERATIONS_LISTENADDRESS=peer2.dummy.com:5053
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
@@ -139,6 +143,8 @@ services:
     container_name: peer3.dummy.com
     image: ${DOCKER_PEER}
     environment:
+      #- CORE_CHAINCODE_BUILDER=bswamina/fabric-ccenv:2.4.6
+      #- CORE_CHAINCODE_GOLANG_RUNTIME=bswamina/fabric-baseos:2.4.6
       - CORE_OPERATIONS_LISTENADDRESS=peer3.dummy.com:4053
       - CORE_METRICS_PROVIDER=prometheus
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock

@@ -1,0 +1,9 @@
+chaincode/out/*.gz
+bin*
+temp/*.tx
+temp/*.json
+temp/*.pb
+artifacts/*.block
+explorer/pgdata
+explorer/walletstore
+monitoring/logging/fluentd/logs

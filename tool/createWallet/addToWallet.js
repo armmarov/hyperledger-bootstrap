@@ -33,7 +33,7 @@ async function main() {
                 certificate,
                 privateKey
             },
-            mspId: 'MyegMSP',
+            mspId: 'DummyMSP',
             type: 'X.509'
         }
 

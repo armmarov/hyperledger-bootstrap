@@ -35,6 +35,13 @@ Install the package library
 sudo apt install musl
 ```
 
+4. Enable options in peer docker
+Open docker/docker-compose-peer.yaml and uncomment below line
+```
+- CORE_CHAINCODE_BUILDER=bswamina/fabric-ccenv:2.4.6
+- CORE_CHAINCODE_GOLANG_RUNTIME=bswamina/fabric-baseos:2.4.6
+```
+
 ## Untar the binary
 
 1. For amd64 architecture
