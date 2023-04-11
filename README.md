@@ -35,7 +35,7 @@ Install the package library
 sudo apt install musl
 ```
 
-4. Enable options in peer docker
+4. Enable options in peer docker for arm64
 Open docker/docker-compose-peer.yaml and uncomment below line
 ```
 - CORE_CHAINCODE_BUILDER=bswamina/fabric-ccenv:2.4.6
